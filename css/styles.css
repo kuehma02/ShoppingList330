@@ -1,0 +1,19 @@
+.High {
+    background-color: #edd;
+}
+
+.Medium {
+    background-color: cornsilk;
+}
+
+.Low {
+    background-color: #ded
+}
+
+.strike {
+    text-decoration: line-through;
+}
+
+input[type=checkbox] {
+    height: 25px;
+}
