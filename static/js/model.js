@@ -1,4 +1,3 @@
-'use strict';
 class Item {
     constructor(name, quantity, priority, store, department, price, purchased = false) {
         this.name = name;
@@ -77,17 +76,15 @@ class ShoppingList extends Subject {
     }
 
     saveList(){
-        window.localStorage.clear();
-        let list = window.localStorage.getItem('shoppingList');
-        list = list?JSON.parse(list): []
+        let list = [];
         for(let item in this.newItems){
-            let newShoppingListItem = {}
+            let newShoppingListItem = {};
             for(let element in this.newItems[item]){
-                newShoppingListItem[element]= (this.newItems[item])[element]
+                newShoppingListItem[element]= (this.newItems[item])[element];
             }
             list.push(newShoppingListItem);
         }
-        window.localStorage.setItem('shoppingList', JSON.stringify(list));
+        return list;
     }
 
 }

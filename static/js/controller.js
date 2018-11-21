@@ -37,27 +37,39 @@ function populateSelect(selectId, selectValues){
 }
 
 function saveList(){
-    shoppingModel.saveList()
+    var shoppinglist = shoppingModel.saveList();
+    let server_url = 'http://localhost:5000';
+    return fetch(`${server_url}/save`, {method:'POST', body: JSON.stringify(shoppinglist)})
+    .catch(error => console.error('Error: ' + error));
 }
 
 function loadList(){
-    let vals = JSON.parse(window.localStorage.getItem('shoppingList'));
-    if (vals){
-        vals.forEach(function(item){
+    let server_url = 'http://localhost:5000';
+    let vals = fetch(`${server_url}/get`, {method:'GET'})
+    .then(response => response.json())
+    .then(response => JSON.stringify(response))
+    .then(response => JSON.parse(response))
+    .then(function(response) {
+        response.forEach(function(item){
             let itemValues = new Item(item.name, item.quantity, item.priority, item.store, item.department, item.price, item._purchased)
-            shoppingModel.addItem(itemValues);
+            shoppingModel.addItem(itemValues);    
         });
-    }
+    })
+    .catch(error => console.error('Error: ' + error));
+    
+    
 }
 
 function clearList(){
     shoppingModel.emptyList()
     myView.redrawList(shoppingModel);
+    saveList(shoppingModel.saveList());
 }
 
 function removePurchased(){
     shoppingModel.cleanList()
     myView.redrawList(shoppingModel);
+    saveList(shoppingModel.saveList());
 }
 
 $(document).ready(function () {
